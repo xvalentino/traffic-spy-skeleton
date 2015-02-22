@@ -69,6 +69,11 @@ module TrafficSpy
         # status and message that source isn't registered
       end
     end
+    
+    get '/sources/:identifier' do |identifier|
+      @identifier = identifier
+      erb :application_details
+    end
 
     not_found do
       erb :error
