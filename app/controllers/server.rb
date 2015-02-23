@@ -78,7 +78,7 @@ module TrafficSpy
 
 
     get '/sources/:identifier/urls/:relative_path' do
-      Payloads.sort_by.respondedIn
+      # Payloads.sort_by.respondedIn
       erb :url_stats
     end
 
