@@ -75,11 +75,18 @@ module TrafficSpy
       erb :application_details
     end
 
+    get '/sources/:identifier/most_requested' do |identifier|
+      payloads = Payload.where(source_id: Source.where(identifier: identifier).pluck(:id))
+      most_frequent_payloads_hash = payloads.inject(Hash.new(0)) {|hash, payload| hash[payload.url_id] += 1; hash}
+      most_frequent_payloads = most_frequent_payloads_hash.sort_by {|key, value| value}
+      @urls = most_frequent_payloads.map do |array|
+        Payload.find_by(url_id: array[1]).url.address
+      end
+      erb :most_requested
+    end
+
     not_found do
       erb :error
     end
   end
 end
-
-
-# a  Fred comment.
