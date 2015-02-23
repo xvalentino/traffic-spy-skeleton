@@ -15,3 +15,11 @@ DatabaseCleaner.strategy = :truncation, {:except => %w[public.schema_migrations]
 
 
 Capybara.app = TrafficSpy::Server
+
+class BaseTest < Minitest::Test
+
+  def teardown
+    DatabaseCleaner.clean
+  end
+end
+
