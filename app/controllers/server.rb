@@ -73,8 +73,15 @@ module TrafficSpy
     not_found do
       erb :error
     end
+
+
+
+
+    get '/sources/:identifier/urls/:relative_path' do
+      # Payloads.sort_by.respondedIn
+      erb :url_stats
+    end
+
+
   end
 end
-
-
-# a  Fred comment.
