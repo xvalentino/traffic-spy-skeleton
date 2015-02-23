@@ -16,36 +16,23 @@ module TrafficSpy
       else
         status 403
         body = "Identifier Already Exists"
-    end
+      end
     end
 
     post '/sources/:identifier/data' do |identifier|
-      # payload_parser = PayloadParser.evaluate(params[:payload], identifier)
-      # status payload_parser.status
-      # body   payload_parser.body
-
-
 
       if Payload.find_by(raw_data: params["payload"])
         status 403
         body "payload already exists"
 
-
-
       elsif source = Source.find_by(identifier: identifier)
 
-
-
         payload_params = JSON.parse(params[:payload]).symbolize_keys
-        # payload_data = PayloadData.call(payload_params)
 
-
-        #params_length_checker
         if payload_params.size != 11
           status 400
           return body "incorrect amount of payload parameters"
         end
-
 
         user_agent = UserAgent.parse(payload_params[:userAgent])
 
@@ -61,15 +48,14 @@ module TrafficSpy
           os: Os.find_or_create_by(name: user_agent.platform),
           resolution: Resolution.find_or_create_by(width: payload_params[:resolutionWidth], height: payload_params[:resolutionHeight]),
           ip_address: IpAddress.find_or_create_by(address: payload_params[:ip])
-          })
-          body "successful"
+        })
+        body "successful"
       else
         status 403
         body "source is not registered"
-        # status and message that source isn't registered
       end
     end
-    
+
     get '/sources/:identifier' do |identifier|
       @identifier = identifier
       erb :application_details
@@ -89,14 +75,8 @@ module TrafficSpy
       erb :error
     end
 
-
-
-
     get '/sources/:identifier/urls/:relative_path' do
-      # Payloads.sort_by.respondedIn
       erb :url_stats
     end
-
-
   end
 end
